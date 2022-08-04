@@ -1,0 +1,16 @@
+FROM node:16
+
+ENV PORT=8080
+ENV API_HOST=api:8080
+
+EXPOSE $PORT
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+CMD [ "npm", "start" ]

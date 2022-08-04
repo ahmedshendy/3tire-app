@@ -1,0 +1,32 @@
+volumes:
+  data:
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=postgrespw
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql
+  api:
+    build: ./api
+    environment:
+      - PORT:8080
+      - DBPASS=postgrespw
+      - DBUSER=postgres
+      - DB=postgres
+      - DBHOST=postgres
+      - DBPORT=5432
+    ports:
+      - 8081:8080
+  web:
+    build: ./web
+    environment:
+      - PORT:8080
+      - API_HOST=http://api:8080
+    ports:
+      - 8082:8080

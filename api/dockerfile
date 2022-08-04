@@ -1,0 +1,30 @@
+FROM node:lts-slim
+
+LABEL io.k8s.description  "node 3 tier api \
+These variables need to be set \
+- PORT: the listening PORT \
+- DB: Name of the database to connect \
+- DBUSER: Database user \
+- DBPASS: DB user password, \
+- DBHOST: Database hostname, \
+- DBPORT: Database server listening port " 
+
+ENV PORT=8080 \
+    DB="postgres" \
+    DBUSER="postgres" \
+    DBPASS="" \
+    DBHOST="" \
+    DBPORT=5432
+
+EXPOSE $PORT
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+RUN npm install
+
+COPY app.js ./
+COPY bin ./bin
+
+CMD [ "npm", "start" ]
